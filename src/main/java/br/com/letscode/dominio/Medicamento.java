@@ -25,8 +25,8 @@ public class Medicamento {
 
     @PostConstruct
     public void init(){
-        if (LocalDateTime.now().isAfter(horarioDose)){
-            horarioDose = horarioDose.plusHours(periodicidade);
+        while(LocalDateTime.now().isAfter(horarioDose)){
+            this.horarioDose = horarioDose.plusHours(periodicidade);
         }
     }
 
