@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +28,7 @@ public class EmergenciaDaoImpl implements EmergenciaDao {
     @PostConstruct
     public void init() {
         try {
-            path = Paths.get("C:\\Users\\thiag\\IdeaProjects\\SistemaEmergencia\\medicamentos.csv");
+            path = Paths.get("medicamentos.csv");
             if (!path.toFile().exists()) {
                 Files.createFile(path);
             }
@@ -117,12 +118,13 @@ public class EmergenciaDaoImpl implements EmergenciaDao {
     }
 
     private String format(Medicamento medicamento) {
-        return String.format("%s;%s;%s;%d;%d;%s;%s\r\n",
+        return String.format("%s;%s;%s;%d;%d;%s;%s;%s\r\n",
                 medicamento.getIdentificador(),
                 medicamento.getPrincipioAtivo(),
                 medicamento.getFabricante(),
                 medicamento.getDosagem(),
                 medicamento.getPeriodicidade(),
+                medicamento.getHorarioDose(),
                 medicamento.getPaciente().getNome(),
                 medicamento.getPaciente().getCpf());
     }
@@ -135,6 +137,7 @@ public class EmergenciaDaoImpl implements EmergenciaDao {
                 .fabricante(token.nextToken())
                 .dosagem(Integer.parseInt(token.nextToken()))
                 .periodicidade(Integer.parseInt(token.nextToken()))
+                .horarioDose(LocalDateTime.parse(token.nextToken()))
                 .paciente(Paciente.builder()
                         .nome(token.nextToken())
                         .cpf(token.nextToken())
